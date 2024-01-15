@@ -25,9 +25,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-configuration-processor'
 
 	// oauth
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
