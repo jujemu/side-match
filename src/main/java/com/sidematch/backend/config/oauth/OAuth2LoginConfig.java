@@ -1,4 +1,4 @@
-package com.sidematch.backend.config;
+package com.sidematch.backend.config.oauth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
