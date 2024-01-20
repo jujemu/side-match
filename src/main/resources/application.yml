@@ -4,6 +4,7 @@ spring:
       - local
     group:
       local:
+        - db
         - oauth
 
   mvc:
