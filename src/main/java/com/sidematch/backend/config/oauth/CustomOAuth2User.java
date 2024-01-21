@@ -11,10 +11,12 @@ import java.util.Map;
 public class CustomOAuth2User extends DefaultOAuth2User {
 
     private final Long userId;
+    private final String role;
 
-    public CustomOAuth2User(Collection<? extends GrantedAuthority> authorities, Map<String, Object> attributes, String nameAttributeKey, Long userId) {
+    public CustomOAuth2User(Collection<? extends GrantedAuthority> authorities, Map<String, Object> attributes, String nameAttributeKey, Long userId, String role) {
         super(authorities, attributes, nameAttributeKey);
-
         this.userId = userId;
+        this.role = role;
     }
+
 }

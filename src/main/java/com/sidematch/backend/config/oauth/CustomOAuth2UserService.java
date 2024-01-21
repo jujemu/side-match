@@ -1,5 +1,6 @@
 package com.sidematch.backend.config.oauth;
 
+import com.sidematch.backend.domain.user.Role;
 import com.sidematch.backend.domain.user.User;
 import com.sidematch.backend.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -23,14 +25,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         final OAuth2User oAuth2User = super.loadUser(userRequest);
 
         final String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        final OAuthAttributes attributes = OAuthAttributes.of(registrationId, oAuth2User.getAttributes());
-        final User user = userService.loadUserByEmailInLogin(attributes);
+        Map<String, Object> attributes = oAuth2User.getAttributes();
+        final OAuth2UserInfoDto oAuth2UserInfoDto = OAuth2UserInfoDto.of(registrationId, attributes);
+        User user = userService.loadUserByEmailInOAuth2Service(oAuth2User.getName());
 
         return new CustomOAuth2User(
-                List.of(new SimpleGrantedAuthority(user.getRole().toString())),
-                attributes.getAttributes(),
-                attributes.getNameAttributeKey(),
-                user.getId()
+                List.of(new SimpleGrantedAuthority(Role.USER.toString())),
+                oAuth2UserInfoDto.getAttributes(),
+                oAuth2UserInfoDto.getNameAttributeKey(),
+                user.getId(),
+                user.getRole().toString()
         );
     }
 }

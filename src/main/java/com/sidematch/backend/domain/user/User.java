@@ -14,8 +14,8 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String name;
     private String email;
+    private String name;
     private String nickname;
     @Enumerated(EnumType.STRING)
     private Role role;
