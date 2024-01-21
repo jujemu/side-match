@@ -12,4 +12,9 @@ public enum Role {
     ADMIN("ROLE_ADMIN");
 
     private final String key;
+
+    @Override
+    public String toString() {
+        return "key";
+    }
 }
