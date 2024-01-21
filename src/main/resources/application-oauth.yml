@@ -8,3 +8,6 @@ spring:
             client-secret: ENC(sr8dPhNMHDqW2o3ym51z2YXPxH47ccwu1UMOZ6tTtw6VahMRbEl+y8g1mR3mvxWK)
             scope: email, profile
 
+jwt:
+  issuer: side-match
+  key: ENC(M4jQpbF6wgcMSipIReUm7jLyLIwE/jUw0bxUDJNzr8Y+6ivtrotHDtprujYrXoz0eGkwoqMrcyM=)
