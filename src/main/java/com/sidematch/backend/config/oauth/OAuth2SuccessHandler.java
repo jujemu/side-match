@@ -1,6 +1,7 @@
 package com.sidematch.backend.config.oauth;
 
 import com.sidematch.backend.config.jwt.TokenProvider;
+import com.sidematch.backend.config.oauth.oauth2user.CustomOAuth2User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

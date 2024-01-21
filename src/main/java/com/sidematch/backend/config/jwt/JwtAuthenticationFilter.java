@@ -1,4 +1,4 @@
-package com.sidematch.backend.config;
+package com.sidematch.backend.config.jwt;
 
 import com.sidematch.backend.config.jwt.TokenProvider;
 import com.sidematch.backend.domain.user.User;

@@ -1,6 +1,7 @@
 package com.sidematch.backend.config.oauth;
 
-import com.sidematch.backend.config.JwtAuthenticationFilter;
+import com.sidematch.backend.config.jwt.JwtAuthenticationFilter;
+import com.sidematch.backend.config.oauth.oauth2user.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
