@@ -1,4 +1,4 @@
-package com.sidematch.backend.config.oauth.oauth2user;
+package com.sidematch.backend.config.oauth.userservice;
 
 import com.sidematch.backend.config.oauth.OAuth2UserInfoDto;
 import com.sidematch.backend.domain.user.Role;

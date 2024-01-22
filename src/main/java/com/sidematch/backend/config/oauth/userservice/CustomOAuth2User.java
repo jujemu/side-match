@@ -1,4 +1,4 @@
-package com.sidematch.backend.config.oauth.oauth2user;
+package com.sidematch.backend.config.oauth.userservice;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
