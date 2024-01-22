@@ -28,7 +28,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         final String registrationId = userRequest.getClientRegistration().getRegistrationId();
         Map<String, Object> attributes = oAuth2User.getAttributes();
         final OAuth2UserInfoDto oAuth2UserInfoDto = OAuth2UserInfoDto.of(registrationId, attributes);
-        User user = userService.loadUserByEmailInOAuth2Service(oAuth2User.getName());
+        User user = userService.loadUserByEmailInOAuth2(
+                oAuth2UserInfoDto.getEmail(),
+                oAuth2UserInfoDto.getName()
+        );
 
         return new CustomOAuth2User(
                 List.of(new SimpleGrantedAuthority(Role.USER.toString())),
