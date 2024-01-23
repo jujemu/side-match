@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active:
+      - local
+    group:
+      local:
+        - db
+        - oauth
+
+  mvc:
+    log-request-details: true
+
+
+logging:
+  level:
+    web: debug
+
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
