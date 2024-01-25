@@ -1,24 +1,23 @@
 package com.sidematch.backend.config.jwt;
 
 import com.sidematch.backend.config.jwt.service.JwtService;
-import com.sidematch.backend.domain.user.User;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.time.Duration;
 import java.util.Date;
-import java.util.List;
 
+/**
+ * 아래 구현에 혼동될 수 있는 단어를 정리
+ * JwtKey: jwt 검증에 필요한 key: Key
+ * JwtSecret: key 생성에 필요한 문자열: String
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -28,68 +27,55 @@ public class JwtProvider {
 
     public final static String ISSUER = "side-match";
     public final static String HEADER_AUTHORIZATION = "Authorization";
-    public final static String TOKEN_PRIFIX = "Bearer";
+    public final static String TOKEN_PREFIX = "Bearer";
     public static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(14);
     public static final Duration ACCESS_TOKEN_DURATION = Duration.ofHours(2);
 
-    public String generateToken(User user, String role, Duration expiredAt) {
+    public String generateToken(Long userId, String role, Duration expiredAt) {
         Date now = new Date();
 
-        Jwt jwt = jwtService.createJwt(user);
-
+        Jwt jwt = jwtService.createJwt(userId);
+        String jwtSecret = jwt.getJwtSecret();
         return Jwts.builder()
                 .issuer(ISSUER)
-                .subject(String.valueOf(user.getId()))
+                .subject(String.valueOf(userId))
                 .id(String.valueOf(jwt.getId()))
                 .claim("role", role)
                 .issuedAt(now)
                 .expiration(new Date(now.getTime() + expiredAt.toMillis()))
-                .signWith(getKey(jwt.getJwtKey()))
+                .signWith(getJwtKeyFromSecret(jwtSecret))
                 .compact();
     }
 
-    public Authentication getAuthentication(String authorizationHeader, User user) {
-        String token = getToken(authorizationHeader);
-        Long userId = getUserId(authorizationHeader);
-        String jwtKey = jwtService.loadJwtKeyByUserId(userId);
-        Claims payload = Jwts.parser()
-                .verifyWith(getKey(jwtKey))
+    public Long getUserId(String token) throws JwtException {
+        String sub = Jwts.parser()
                 .build()
                 .parseSignedClaims(token)
-                .getPayload();
+                .getPayload()
+                .getSubject();
 
-        return new UsernamePasswordAuthenticationToken(
-                user,
-                null,
-                List.of(new SimpleGrantedAuthority((String) payload.get("role")))
-        );
+        return Long.parseLong(sub);
     }
 
-    public Long getUserId(String authorizationHeader) throws JwtException {
-        String token = getToken(authorizationHeader);
-        String jwtKey = getTokenKey(token);
-        Claims payload = Jwts.parser()
-                .verifyWith(getKey(jwtKey))
+    public void validateToken(String token) throws JwtException{
+        SecretKey key = getJwtKeyFromToken(token);
+        Jwts.parser()
+                .verifyWith(key)
                 .build()
-                .parseSignedClaims(token)
-                .getPayload();
-
-        return Long.parseLong(payload.getSubject());
+                .parseSignedClaims(token);
     }
 
-    private String getToken(String authorizationHeader) {
-        if (!authorizationHeader.startsWith(TOKEN_PRIFIX)) {
-            throw new IllegalArgumentException("잘못된 인증 헤더 요청입니다.");
-        }
-
-        return authorizationHeader.substring(TOKEN_PRIFIX.length());
+    private SecretKey getJwtKeyFromToken(String token) {
+        String jwtSecret = getJwtSecret(token);
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    private String getTokenKey(String token) {
-        return Jwts.parser().build().parseSignedClaims(token).getPayload().getId();
+    private SecretKey getJwtKeyFromSecret(String jwtSecret) {
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    private SecretKey getKey(String jwtKey) {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtKey));
+    private String getJwtSecret(String token) {
+        long jwtId = Long.parseLong(Jwts.parser().build().parseSignedClaims(token).getPayload().getId());
+        return jwtService.loadJwtSecret(jwtId);
     }
 }

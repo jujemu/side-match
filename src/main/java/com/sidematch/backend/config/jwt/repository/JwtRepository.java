@@ -5,5 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JwtRepository extends JpaRepository<Jwt, Long> {
 
-    Jwt findJwtByUserId(Long userId);
 }
