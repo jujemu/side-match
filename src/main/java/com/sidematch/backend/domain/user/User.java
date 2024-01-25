@@ -1,5 +1,6 @@
 package com.sidematch.backend.domain.user;
 
+import com.sidematch.backend.config.jwt.Jwt;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,9 @@ public class User {
     private String nickname;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private Jwt jwt;
 
     @Builder
     private User(String email, Role role, String name, String nickname) {

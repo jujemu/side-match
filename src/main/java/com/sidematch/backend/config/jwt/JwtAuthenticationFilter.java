@@ -1,6 +1,5 @@
 package com.sidematch.backend.config.jwt;
 
-import com.sidematch.backend.config.jwt.TokenProvider;
 import com.sidematch.backend.domain.user.User;
 import com.sidematch.backend.domain.user.service.UserService;
 import io.jsonwebtoken.JwtException;
@@ -18,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static com.sidematch.backend.config.jwt.TokenProvider.HEADER_AUTHORIZATION;
+import static com.sidematch.backend.config.jwt.JwtProvider.HEADER_AUTHORIZATION;
 import static org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI;
 
 @Slf4j
@@ -26,7 +25,7 @@ import static org.springframework.security.oauth2.client.web.OAuth2Authorization
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final TokenProvider tokenProvider;
+    private final JwtProvider jwtProvider;
     private final UserService userService;
 
     @Override
@@ -35,9 +34,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
             String authorizationHeader = getAuthorizationHeader(request);
-            Long userId = tokenProvider.getUserId(authorizationHeader);
+            Long userId = jwtProvider.getUserId(authorizationHeader);
             User user = userService.loadUserById(userId);
-            Authentication authentication = tokenProvider.getAuthentication(authorizationHeader, user);
+            Authentication authentication = jwtProvider.getAuthentication(authorizationHeader, user);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
         } catch (JwtException jwtException) {
