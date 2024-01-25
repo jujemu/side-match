@@ -16,14 +16,14 @@ public class Jwt {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String jwtKey;
+    private String jwtSecret;
 
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
     public Jwt(User user) {
-        SecretKey key = Jwts.SIG.HS256.key().build();
-        this.jwtKey = Encoders.BASE64.encode(key.getEncoded());
+        SecretKey randomKey = Jwts.SIG.HS256.key().build();
+        this.jwtSecret = Encoders.BASE64.encode(randomKey.getEncoded());
         this.user = user;
     }
 }
