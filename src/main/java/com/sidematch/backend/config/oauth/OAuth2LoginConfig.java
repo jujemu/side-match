@@ -35,7 +35,7 @@ public class OAuth2LoginConfig {
 
         http.authorizeHttpRequests(a ->
                 a.requestMatchers("/api/login").permitAll()
-                        .anyRequest().permitAll());
+                        .anyRequest().authenticated());
 
         return http.build();
     }
