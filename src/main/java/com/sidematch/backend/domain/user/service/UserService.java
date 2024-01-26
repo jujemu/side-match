@@ -17,9 +17,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User loadUserByEmailInOAuth2(final String email, String name) {
-        Optional<User> user = getOptUser(email);
-        return user.orElseGet(() -> singUp(email, name));
+    public Optional<User> loadOptUserByEmail(final String email) {
+        return getOptUser(email);
     }
 
     public User loadUserById(Long userId) {
@@ -27,7 +26,7 @@ public class UserService {
         return user.orElseThrow(() -> new IllegalArgumentException("등록되지 않은 정보입니다."));
     }
 
-    private User singUp(String email, String name) {
+    public User signUp(String email, String name) {
         User newUser = User.builder()
                 .email(email)
                 .name(name)
