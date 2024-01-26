@@ -2,8 +2,8 @@ package com.sidematch.backend.config.jwt;
 
 import com.sidematch.backend.domain.user.User;
 import com.sidematch.backend.domain.user.service.UserService;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,19 +38,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
-            String authorizationHeader = getAuthorizationHeader(request);
-            String token = getToken(authorizationHeader);
-            jwtProvider.validateToken(token);
-            request.setAttribute("token", token);
+            String token = setTokenInRequestAttribute(request);
+            Claims payload = jwtProvider.loadPayloadAndValidateToken(token);
 
-            Long userId = jwtProvider.getUserId(token);
-            User user = userService.loadUserById(userId);
-            Authentication authentication = getAuthentication(token, user);
+            Long userId = Long.parseLong(payload.getSubject());
+            User user = getUser(userId);
+            Authentication authentication = getAuthentication(user);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
         } catch (JwtException jwtException) {
             log.info("잘못된 토큰으로 접근했습니다.");
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "유효하지 않은 토큰입니다.");
+        } catch (IllegalArgumentException iAE) {
+            filterChain.doFilter(request, response);
         }
     }
 
@@ -60,15 +60,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 request.getServletPath().startsWith(DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
     }
 
-    private String getAuthorizationHeader(HttpServletRequest request) {
+    private User getUser(Long userId) {
+        return userService.loadUserById(userId);
+    }
+
+    private String setTokenInRequestAttribute(HttpServletRequest request) throws IllegalArgumentException {
+        String token = getToken(request);
+        request.setAttribute("token", token);
+        return token;
+    }
+
+    private String getToken(HttpServletRequest request) throws IllegalArgumentException {
         String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
         if (authorizationHeader == null || authorizationHeader.isEmpty()) {
             throw new IllegalArgumentException("토큰 없이 접근하고 있습니다.");
         }
-        return authorizationHeader;
-    }
 
-    private String getToken(String authorizationHeader) {
         if (!authorizationHeader.startsWith(TOKEN_PREFIX)) {
             throw new IllegalArgumentException("잘못된 인증 헤더 요청입니다.");
         }
@@ -76,15 +83,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return authorizationHeader.substring(TOKEN_PREFIX.length());
     }
 
-    private Authentication getAuthentication(String token, User user) {
-        String role = (String) Jwts.parser()
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .get("role");
-
+    private Authentication getAuthentication(User user) {
         return new UsernamePasswordAuthenticationToken(
-                user, null, List.of(new SimpleGrantedAuthority(role))
-        );
+                user, null, List.of(new SimpleGrantedAuthority(user.getRole().toString())));
     }
 }

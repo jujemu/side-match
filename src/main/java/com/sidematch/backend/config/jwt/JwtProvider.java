@@ -1,6 +1,7 @@
 package com.sidematch.backend.config.jwt;
 
 import com.sidematch.backend.config.jwt.service.JwtService;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -38,8 +39,8 @@ public class JwtProvider {
         String jwtSecret = jwt.getJwtSecret();
         return Jwts.builder()
                 .issuer(ISSUER)
+                .header().keyId(String.valueOf(jwt.getId())).and()
                 .subject(String.valueOf(userId))
-                .id(String.valueOf(jwt.getId()))
                 .claim("role", role)
                 .issuedAt(now)
                 .expiration(new Date(now.getTime() + expiredAt.toMillis()))
@@ -47,35 +48,19 @@ public class JwtProvider {
                 .compact();
     }
 
-    public Long getUserId(String token) throws JwtException {
-        String sub = Jwts.parser()
+    public Claims loadPayloadAndValidateToken(String token) throws JwtException{
+        return Jwts.parser()
+                .keyLocator(getKeyLocator())
                 .build()
                 .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
-
-        return Long.parseLong(sub);
+                .getPayload();
     }
 
-    public void validateToken(String token) throws JwtException{
-        SecretKey key = getJwtKeyFromToken(token);
-        Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token);
-    }
-
-    private SecretKey getJwtKeyFromToken(String token) {
-        String jwtSecret = getJwtSecret(token);
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+    private CustomKeyLocator getKeyLocator() {
+        return new CustomKeyLocator(this.jwtService);
     }
 
     private SecretKey getJwtKeyFromSecret(String jwtSecret) {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
-    }
-
-    private String getJwtSecret(String token) {
-        long jwtId = Long.parseLong(Jwts.parser().build().parseSignedClaims(token).getPayload().getId());
-        return jwtService.loadJwtSecret(jwtId);
     }
 }

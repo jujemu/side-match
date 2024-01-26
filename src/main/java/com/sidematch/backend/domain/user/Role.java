@@ -15,6 +15,6 @@ public enum Role {
 
     @Override
     public String toString() {
-        return "key";
+        return key;
     }
 }
