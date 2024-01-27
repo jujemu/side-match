@@ -19,13 +19,9 @@ public class JwtService {
 
     public Jwt createJwt(Long userId) {
         User user = userService.loadUserById(userId);
-        Jwt jwt = jwtRepository.findByUser(user).orElseGet(() -> new Jwt(user));
+        Jwt jwt = jwtRepository.findByUser(user)
+                .orElseGet(() -> new Jwt(user));
         return jwtRepository.save(jwt);
-    }
-
-    public String loadJwtSecret(Long tokenId) {
-        Jwt jwt = jwtRepository.findById(tokenId).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 토큰입니다."));
-        return jwt.getJwtSecret();
     }
 
     public Jwt loadJwtById(Long jwtId) {
