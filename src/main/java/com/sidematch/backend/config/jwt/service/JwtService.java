@@ -19,7 +19,8 @@ public class JwtService {
 
     public Jwt createJwt(Long userId) {
         User user = userService.loadUserById(userId);
-        return jwtRepository.save(new Jwt(user));
+        Jwt jwt = jwtRepository.findByUser(user).orElseGet(() -> new Jwt(user));
+        return jwtRepository.save(jwt);
     }
 
     public String loadJwtSecret(Long tokenId) {
