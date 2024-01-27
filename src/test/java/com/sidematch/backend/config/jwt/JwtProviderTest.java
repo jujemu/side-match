@@ -54,7 +54,8 @@ class JwtProviderTest {
         String token = jwtProvider.generateToken(user.getId(), user.getRole().toString(), ACCESS_TOKEN_DURATION);
 
         //when //then
-        assertThatCode(() -> jwtProvider.loadPayloadAndValidateToken(token)).doesNotThrowAnyException();
+        assertThatCode(() ->
+                jwtProvider.loadPayloadAndValidateToken(token)).doesNotThrowAnyException();
     }
 
 }
