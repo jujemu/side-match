@@ -41,7 +41,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return getCustomOAuth2User(oAuth2UserInfoDto, user);
     }
 
-    private static CustomOAuth2User getCustomOAuth2User(OAuth2UserInfoDto oAuth2UserInfoDto, User user) {
+    private CustomOAuth2User getCustomOAuth2User(OAuth2UserInfoDto oAuth2UserInfoDto, User user) {
         return new CustomOAuth2User(
                 List.of(new SimpleGrantedAuthority(Role.USER.toString())),
                 oAuth2UserInfoDto.getAttributes(),
