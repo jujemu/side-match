@@ -15,7 +15,6 @@ import java.io.IOException;
 import static com.sidematch.backend.config.jwt.JwtProvider.ACCESS_TOKEN_DURATION;
 import static com.sidematch.backend.config.jwt.JwtProvider.HEADER_AUTHORIZATION;
 
-@Slf4j
 @RequiredArgsConstructor
 @Component
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {

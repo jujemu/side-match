@@ -33,7 +33,7 @@ public class OAuth2LoginConfig {
 
         http.addFilterAfter(jwtAuthenticationFilter, OAuth2LoginAuthenticationFilter.class);
 
-        // 로컬 환경에서는 서버 사이드로 구현하기 때문에 웹 서버 동작하기 위해서 일부 엔드포인트 개방
+        // 로컬 환경에서는 서버 사이드로 구현하기 때문에 일부 엔드포인트 개방
         http.authorizeHttpRequests(a ->
                 a.requestMatchers("/login/success").permitAll());
 
