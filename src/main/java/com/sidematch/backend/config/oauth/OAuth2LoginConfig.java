@@ -33,8 +33,14 @@ public class OAuth2LoginConfig {
 
         http.addFilterAfter(jwtAuthenticationFilter, OAuth2LoginAuthenticationFilter.class);
 
+        // 로컬 환경에서는 서버 사이드로 구현하기 때문에 일부 엔드포인트 개방
         http.authorizeHttpRequests(a ->
-                a.requestMatchers("/api/login").permitAll()
+                a.requestMatchers("/login/success").permitAll());
+
+        http.authorizeHttpRequests(a ->
+                a.requestMatchers("/error").permitAll()
+                        .requestMatchers("/api/login").permitAll()
+                        .requestMatchers("/login/success").permitAll()
                         .anyRequest().authenticated());
 
         return http.build();

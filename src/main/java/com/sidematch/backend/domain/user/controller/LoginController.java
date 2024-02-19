@@ -1,6 +1,7 @@
 package com.sidematch.backend.domain.user.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +14,8 @@ import static org.springframework.security.oauth2.client.web.OAuth2Authorization
 public class LoginController {
 
     @GetMapping("/api/login")
-    public void login(HttpServletResponse response, @RequestParam String provider) throws IOException {
-        String redirectUrl =  DEFAULT_AUTHORIZATION_REQUEST_BASE_URI + "/" + provider;
+    public void login(HttpServletResponse response, @RequestParam String registrationId) throws IOException {
+        String redirectUrl =  DEFAULT_AUTHORIZATION_REQUEST_BASE_URI + "/" + registrationId;
         response.sendRedirect(redirectUrl);
     }
 }
