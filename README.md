@@ -3,10 +3,16 @@
 ## API 문서
 
 <a href="https://shining-card-03b.notion.site/Rest-API-3132ab1f13a54100887add988d294108?pvs=4">
-  Notion link
+  Notion link  
 </a>
+<div>
+  <br>
+  <img src="https://github.com/jujemu/side-match/assets/103489171/26b7aba9-59aa-43d2-b247-07a6e546aa80" width="90%">
+</div>
+  
 
-## 운영 결과 발표
+
+## ppt
 
 <a href="https://docs.google.com/presentation/d/1Yscm7k98Vgrge_egP0EVL1aXXOW2gEJyWoieuwWWqPg/edit?usp=sharing">
   Google slide
