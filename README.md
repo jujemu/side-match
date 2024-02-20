@@ -1,5 +1,17 @@
 # Side-match
 
+## API 문서
+
+<a href="https://shining-card-03b.notion.site/Rest-API-3132ab1f13a54100887add988d294108?pvs=4">
+  Notion link
+</a>
+
+## 운영 결과 발표
+
+<a href="https://docs.google.com/presentation/d/1Yscm7k98Vgrge_egP0EVL1aXXOW2gEJyWoieuwWWqPg/edit?usp=sharing">
+  Google slide
+</a>
+
 ## Login Flow
 
 ### UserInfo endpoint
