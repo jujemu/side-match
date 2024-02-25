@@ -1,4 +1,4 @@
-# Side-match
+# toy-project-platform
 
 ## API 문서
 
