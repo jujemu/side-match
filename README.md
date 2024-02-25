@@ -12,7 +12,7 @@
   
 
 
-## ppt
+## 사업 개요
 
 <a href="https://docs.google.com/presentation/d/1Yscm7k98Vgrge_egP0EVL1aXXOW2gEJyWoieuwWWqPg/edit?usp=sharing">
   Google slide
