@@ -10,13 +10,19 @@
   <img src="https://github.com/jujemu/side-match/assets/103489171/26b7aba9-59aa-43d2-b247-07a6e546aa80" width="90%">
 </div>
   
-
-
 ## 사업 개요
 
 <a href="https://docs.google.com/presentation/d/1Yscm7k98Vgrge_egP0EVL1aXXOW2gEJyWoieuwWWqPg/edit?usp=sharing">
   Google slide
 </a>
+
+## 아키텍쳐
+
+사진
+
+## ERD
+
+사진
 
 ## Login Flow
 
@@ -35,3 +41,31 @@
 - 브라우저의 쿠키에 저장된 token을 이용해서 endpoint로 접근하면 JwtAuthenticationFilter에서 유효성을 검증
 - 검증된 후에는 UsernamePasswordToken을 생성하고 SecurityContextHolder에 저장
 - UsernamePasswordToken은 JWT와 관련 있는 것이 아니라 스프링 시큐리티에서 제공하는 Principal 구현체라는 점을 주의
+
+## CI/CD 구축 과정
+
+사진
+
+- https://jujemu.tistory.com/34
+- https://jujemu.tistory.com/35
+
+## 회고
+
+### OAuth 인증 후에 토큰 발급 테스트
+
+https://jujemu.tistory.com/106
+
+### 동적 쿼리를 if문으로 작성하여 지저분했던 코드를 QueryDSL 개선
+
+### mysql에 저장할 때, 아이콘, 이모지가 저장 안 되는 문제 해결
+
+https://jujemu.tistory.com/63
+
+### 사이트가 한국 시간대로 표시되지 않던 문제 해결
+
+
+
+_교훈_  
+- 비교적 간단한 문제임에도 꽤나 애먹었던 것으로 기억한다.
+- 문제의 원인이 어디인지 명확하게 분석하고 해결하는 것이 중요하다는 것을 배웠다.
+- 원인 분석을 제대로 하지 않아, aws ec2 시간대와 프론트 처리 로직 재검토, spring LocalDateTime 을 수정하고, db 설정까지 다 건드리면서 해결했다.
