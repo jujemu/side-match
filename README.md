@@ -10,7 +10,7 @@
   <img src="https://github.com/jujemu/side-match/assets/103489171/26b7aba9-59aa-43d2-b247-07a6e546aa80" width="90%">
 </div>
   
-## 사업 개요
+## 기획 개요
 
 <a href="https://docs.google.com/presentation/d/1Yscm7k98Vgrge_egP0EVL1aXXOW2gEJyWoieuwWWqPg/edit?usp=sharing">
   Google slide
