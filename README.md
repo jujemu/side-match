@@ -2,7 +2,7 @@
 
 ## API 문서
 
-<a href="https://shining-card-03b.notion.site/Rest-API-3132ab1f13a54100887add988d294108?pvs=4">
+<a href="https://www.notion.so/Rest-API-3132ab1f13a54100887add988d294108?pvs=4">
   Notion link  
 </a>
 <div>
