@@ -1,7 +1,7 @@
 package com.sidematch.backend.config.oauth.userservice;
 
 import com.sidematch.backend.config.oauth.OAuth2UserInfoDto;
-import com.sidematch.backend.domain.user.Role;
+import com.sidematch.backend.domain.user.UserRole;
 import com.sidematch.backend.domain.user.User;
 import com.sidematch.backend.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private CustomOAuth2User getCustomOAuth2User(OAuth2UserInfoDto oAuth2UserInfoDto, User user) {
         return new CustomOAuth2User(
-                List.of(new SimpleGrantedAuthority(Role.USER.toString())),
+                List.of(new SimpleGrantedAuthority(UserRole.USER.toString())),
                 oAuth2UserInfoDto.getAttributes(),
                 oAuth2UserInfoDto.getNameAttributeKey(),
                 user.getId(),

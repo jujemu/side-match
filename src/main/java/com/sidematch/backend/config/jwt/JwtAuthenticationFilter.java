@@ -60,10 +60,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 request.getServletPath().startsWith(DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
     }
 
-    private User getUser(Long userId) {
-        return userService.loadUserById(userId);
-    }
-
     private String setTokenInRequestAttribute(HttpServletRequest request) throws IllegalArgumentException {
         String token = getToken(request);
         request.setAttribute("token", token);
@@ -81,6 +77,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         return authorizationHeader.substring(TOKEN_PREFIX.length());
+    }
+
+    private User getUser(Long userId) {
+        return userService.loadUserById(userId);
     }
 
     private Authentication getAuthentication(User user) {

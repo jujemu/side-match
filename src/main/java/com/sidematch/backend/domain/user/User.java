@@ -19,15 +19,15 @@ public class User {
     private String name;
     private String nickname;
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private UserRole role;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Jwt jwt;
 
     @Builder
-    private User(String email, Role role, String name, String nickname) {
+    private User(String email, UserRole role, String name, String nickname) {
         this.email = email;
-        this.role = role != null ? role : Role.USER;
+        this.role = role != null ? role : UserRole.USER;
         this.name = name;
         this.nickname = nickname;
     }
