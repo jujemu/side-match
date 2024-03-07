@@ -1,5 +1,6 @@
 package com.sidematch.backend.domain.team;
 
+import com.sidematch.backend.domain.team.controller.TeamCreateOrUpdateRequest;
 import com.sidematch.backend.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -50,5 +51,15 @@ public class Team {
 
     public void addTeamPositions(List<TeamPosition> teamPositions) {
         this.teamPositions = teamPositions;
+    }
+
+    public void update(TeamCreateOrUpdateRequest request) {
+        this.type = request.getType() != null ? TeamType.valueOf(request.getType()) : this.type;
+        this.title = request.getTitle() != null ? request.getTitle() : this.title;
+        this.description = request.getDescription() != null ? request.getDescription() : this.description;
+        this.meetingTime = request.getMeetingTime()!= null ? request.getDescription() : this.description;
+        this.teamPositions = request.getTeamPositions(this);
+        this.isDeleted = false;
+        this.isFinished = false;
     }
 }

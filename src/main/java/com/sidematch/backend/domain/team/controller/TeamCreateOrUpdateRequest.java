@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class TeamCreateRequest {
+public class TeamCreateOrUpdateRequest {
 
     @NotBlank(message = "타입은 필수 입력 값입니다.")
     private String type;
@@ -31,7 +31,7 @@ public class TeamCreateRequest {
     private String meetingTime;
 
     @Builder
-    private TeamCreateRequest(String type, String title, String description, List<TeamPositionDto> teamPositions, String city, String detailSpot, String meetingTime) {
+    private TeamCreateOrUpdateRequest(String type, String title, String description, List<TeamPositionDto> teamPositions, String city, String detailSpot, String meetingTime) {
         this.type = type;
         this.title = title;
         this.description = description;
@@ -42,6 +42,10 @@ public class TeamCreateRequest {
     }
 
     public List<TeamPosition> getTeamPositions(Team team) {
+        if (teamPositions == null) {
+            return team.getTeamPositions() != null ? team.getTeamPositions() : null;
+        }
+
         return teamPositions.stream()
                 .map(dto -> dto.toEntity(team))
                 .toList();
