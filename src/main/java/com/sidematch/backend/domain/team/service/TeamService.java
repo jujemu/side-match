@@ -21,7 +21,6 @@ import java.util.*;
 public class TeamService {
 
     private final TeamRepository teamRepository;
-    private final UserRepository userRepository;
 
     public Team create(User leader, TeamCreateOrUpdateRequest request) {
         Team team = createTeam(leader, request);
