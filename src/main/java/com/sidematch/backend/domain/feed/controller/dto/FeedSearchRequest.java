@@ -1,6 +1,8 @@
-package com.sidematch.backend.domain.feed.controller;
+package com.sidematch.backend.domain.feed.controller.dto;
 
 import com.sidematch.backend.domain.feed.ProjectDomain;
+import com.sidematch.backend.domain.feed.controller.FeedSearchType;
+import com.sidematch.backend.domain.feed.repository.FeedSearchCondition;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -18,5 +20,13 @@ public class FeedSearchRequest {
 
     public FeedSearchType getSearchType() {
         return FeedSearchType.of(searchType);
+    }
+
+    public FeedSearchCondition toConditionEntity() {
+        return new FeedSearchCondition(
+                getDomain(),
+                getSearchType(),
+                searchValue
+        );
     }
 }
