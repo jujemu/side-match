@@ -31,7 +31,7 @@ public class TeamSearchResponse {
         this.isFinished = isFinished;
     }
 
-    public static TeamSearchResponse from(Team team, Map<Long, User> userMap) {
+    public static TeamSearchResponse from(Team team) {
         List<TeamStack> teamStacks = team.getTeamStacks();
         List<TeamStackDto> teamStackDtos = teamStacks.stream()
                 .map(TeamStackDto::of).toList();
@@ -42,7 +42,7 @@ public class TeamSearchResponse {
                 .description(team.getDescription())
                 .teamStacks(teamStackDtos)
                 .leaderID(team.getLeader().getId())
-                .leaderNickname(userMap.get(team.getLeader().getId()).getNickname())
+                .leaderNickname(team.getLeader().getNickname())
                 .isFinished(team.isFinished())
                 .build();
     }

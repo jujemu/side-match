@@ -36,7 +36,6 @@ public class TeamService {
 
     public List<TeamSearchResponse> searchTeams(Optional<User> user) {
         List<Team> teams = teamRepository.findAll();
-        List<User> users = userRepository.findAll();
         return getSearchTeamsResponse(teams);
     }
 
@@ -69,20 +68,10 @@ public class TeamService {
 
     private List<TeamSearchResponse> getSearchTeamsResponse(List<Team> teamList) {
         List<TeamSearchResponse> teamSearchResponses = new ArrayList<>();
-        Map<Long, User> userMap = getUserMap();
         teamList.forEach(team ->
-                    teamSearchResponses.add(TeamSearchResponse.from(team, userMap)));
+                    teamSearchResponses.add(TeamSearchResponse.from(team)));
 
         return teamSearchResponses;
-    }
-
-    private Map<Long, User> getUserMap() {
-        Map<Long, User> userMap = new HashMap<>();
-        userRepository.findAll()
-                .forEach(user ->
-                        userMap.put(user.getId(), user));
-
-        return userMap;
     }
 
     private TeamDetailResponse getResponse(Team team) {
