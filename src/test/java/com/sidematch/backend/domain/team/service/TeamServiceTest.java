@@ -1,7 +1,7 @@
 package com.sidematch.backend.domain.team.service;
 
 import com.sidematch.backend.domain.team.*;
-import com.sidematch.backend.domain.team.controller.TeamCreateOrUpdateRequest;
+import com.sidematch.backend.domain.team.controller.TeamRequest;
 import com.sidematch.backend.domain.team.controller.TeamPositionDto;
 import com.sidematch.backend.domain.team.repository.TeamRepository;
 import com.sidematch.backend.domain.user.User;
@@ -51,7 +51,7 @@ class TeamServiceTest {
         String type = "PROJECT";
         String title = "test title";
         String desc = "test description";
-        TeamCreateOrUpdateRequest request = TeamCreateOrUpdateRequest.builder()
+        TeamRequest request = TeamRequest.builder()
                 .type(type)
                 .title(title)
                 .description(desc)
@@ -89,7 +89,7 @@ class TeamServiceTest {
         Team originalTeam = createOriginalTeam(leader); // prefix: original test
         teamRepository.save(originalTeam);
 
-        TeamCreateOrUpdateRequest request = getTeamCreateRequest(); // prefix: edited test
+        TeamRequest request = getTeamCreateRequest(); // prefix: edited test
 
         // when
         Team editedTeam = teamService.update(leader, originalTeam.getId(), request);
@@ -121,7 +121,7 @@ class TeamServiceTest {
         Team originalTeam = createOriginalTeam(leader); // prefix: original test
         teamRepository.save(originalTeam);
 
-        TeamCreateOrUpdateRequest request = getTeamCreateRequest(); // prefix: edited test
+        TeamRequest request = getTeamCreateRequest(); // prefix: edited test
 
         // when // then
         Assertions.assertThatThrownBy(() ->
@@ -130,7 +130,7 @@ class TeamServiceTest {
 
     }
 
-    private TeamCreateOrUpdateRequest getTeamCreateRequest() {
+    private TeamRequest getTeamCreateRequest() {
         String role = "BE";
         int maxCount = 5;
         List<String> stacks = List.of("edited test spring", "edited test nodejs");
@@ -143,7 +143,7 @@ class TeamServiceTest {
 
         String title = "edited test title";
         String desc = "edited test description";
-        return TeamCreateOrUpdateRequest.builder()
+        return TeamRequest.builder()
                 .title(title)
                 .description(desc)
                 .teamPositions(teamPositions)

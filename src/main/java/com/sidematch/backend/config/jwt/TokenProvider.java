@@ -22,7 +22,7 @@ import java.util.Date;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class JwtProvider {
+public class TokenProvider {
 
     private final JwtService jwtService;
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class TeamCreateOrUpdateRequest {
+public class TeamRequest {
 
     @NotBlank(message = "타입은 필수 입력 값입니다.")
     private String type;
@@ -31,7 +31,7 @@ public class TeamCreateOrUpdateRequest {
     private String meetingTime;
 
     @Builder
-    private TeamCreateOrUpdateRequest(String type, String title, String description, List<TeamPositionDto> teamPositions, String city, String detailSpot, String meetingTime) {
+    private TeamRequest(String type, String title, String description, List<TeamPositionDto> teamPositions, String city, String detailSpot, String meetingTime) {
         this.type = type;
         this.title = title;
         this.description = description;

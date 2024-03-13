@@ -15,6 +15,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import static com.sidematch.backend.domain.user.util.UserUtil.getUser;
+
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
@@ -24,7 +26,7 @@ public class TeamController {
     private final TeamService teamService;
 
     @PostMapping("/team")
-    public ResponseEntity<Void> create(@Valid @RequestBody TeamCreateOrUpdateRequest request,
+    public ResponseEntity<Void> create(@Valid @RequestBody TeamRequest request,
                                        Authentication authentication) {
         User leader = getLeader(authentication);
         Team team = teamService.create(leader, request);
@@ -36,8 +38,8 @@ public class TeamController {
     @GetMapping("/list/team")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<TeamSearchResponse>> showTeams(Authentication authentication) {
-        Optional<User> user = getUser(authentication);
-        return ResponseEntity.ok(teamService.searchTeams(user));
+        Optional<User> optUser = getUser(authentication);
+        return ResponseEntity.ok(teamService.searchTeams(optUser));
     }
 
     @GetMapping("/team/{teamId}/info")
@@ -47,20 +49,13 @@ public class TeamController {
 
     @PutMapping("/team/{teamId}")
     public ResponseEntity<Void> update(@PathVariable Long teamId,
-                                       @Valid @RequestBody TeamCreateOrUpdateRequest request,
+                                       @Valid @RequestBody TeamRequest request,
                                        Authentication authentication) {
         User leader = getLeader(authentication);
         teamService.update(leader, teamId, request);
         log.info("팀이 수정되었습니다.");
 
         return ResponseEntity.ok().build();
-    }
-
-    private Optional<User> getUser(Authentication authentication) {
-        if (authentication == null) return Optional.empty();
-
-        return Optional.of(
-                (User) authentication.getPrincipal());
     }
 
     private User getLeader(Authentication authentication) {

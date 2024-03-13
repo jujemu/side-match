@@ -2,13 +2,12 @@ package com.sidematch.backend.domain.team.service;
 
 import com.sidematch.backend.domain.team.Team;
 import com.sidematch.backend.domain.team.TeamType;
-import com.sidematch.backend.domain.team.controller.TeamCreateOrUpdateRequest;
+import com.sidematch.backend.domain.team.controller.TeamRequest;
 import com.sidematch.backend.domain.team.controller.TeamDetailResponse;
 import com.sidematch.backend.domain.team.controller.TeamSearchResponse;
 import com.sidematch.backend.domain.team.repository.TeamRepository;
 import com.sidematch.backend.domain.team.TeamPosition;
 import com.sidematch.backend.domain.user.User;
-import com.sidematch.backend.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,7 @@ public class TeamService {
 
     private final TeamRepository teamRepository;
 
-    public Team create(User leader, TeamCreateOrUpdateRequest request) {
+    public Team create(User leader, TeamRequest request) {
         Team team = createTeam(leader, request);
 
         List<TeamPosition> teamPositions = request.getTeamPositions(team);
@@ -44,7 +43,7 @@ public class TeamService {
         return getResponse(team);
     }
 
-    public Team update(User leader, Long teamId, TeamCreateOrUpdateRequest request) {
+    public Team update(User leader, Long teamId, TeamRequest request) {
         Team team = getTeam(teamId);
         isLeaderOfTeam(leader, team);
         team.update(request);
@@ -56,7 +55,7 @@ public class TeamService {
                 .orElseThrow(() -> new IllegalArgumentException("팀을 찾을 수 없습니다."));
     }
 
-    private Team createTeam(User leader, TeamCreateOrUpdateRequest request) {
+    private Team createTeam(User leader, TeamRequest request) {
         return Team.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
