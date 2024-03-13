@@ -19,6 +19,7 @@ public class Jwt {
     private String jwtSecret;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Jwt(User user) {

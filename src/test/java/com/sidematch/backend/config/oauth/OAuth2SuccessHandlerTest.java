@@ -18,7 +18,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
-import static com.sidematch.backend.domain.user.Role.USER;
+import static com.sidematch.backend.domain.user.UserRole.USER;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;

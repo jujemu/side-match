@@ -1,7 +1,7 @@
 package com.sidematch.backend.config.jwt.mockuser;
 
 import com.sidematch.backend.config.oauth.userservice.CustomOAuth2User;
-import com.sidematch.backend.domain.user.Role;
+import com.sidematch.backend.domain.user.UserRole;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,7 +38,7 @@ public class WithCustomOAuth2MockUserSecurityContextFactory implements WithSecur
         attributes.put(nameAttributeKey, mockUser.registrationId());
 
         OAuth2User principal = new CustomOAuth2User(
-                List.of(new SimpleGrantedAuthority(Role.USER.toString())),
+                List.of(new SimpleGrantedAuthority(UserRole.USER.toString())),
                 attributes,
                 nameAttributeKey,
                 mockUser.id(),
