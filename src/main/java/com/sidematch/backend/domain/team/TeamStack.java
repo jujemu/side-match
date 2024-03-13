@@ -14,15 +14,15 @@ public class TeamStack {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String stack;
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_position_id")
     private TeamPosition teamPosition;
 
     @Builder
-    private TeamStack(String stack, TeamPosition teamPosition) {
-        this.stack = stack;
+    private TeamStack(String name, TeamPosition teamPosition) {
+        this.name = name;
         this.teamPosition = teamPosition;
     }
 }

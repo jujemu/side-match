@@ -4,14 +4,16 @@ import com.sidematch.backend.domain.team.Team;
 import com.sidematch.backend.domain.team.TeamType;
 import com.sidematch.backend.domain.team.controller.TeamCreateOrUpdateRequest;
 import com.sidematch.backend.domain.team.controller.TeamDetailResponse;
+import com.sidematch.backend.domain.team.controller.TeamSearchResponse;
 import com.sidematch.backend.domain.team.repository.TeamRepository;
 import com.sidematch.backend.domain.team.TeamPosition;
 import com.sidematch.backend.domain.user.User;
+import com.sidematch.backend.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Transactional
@@ -19,6 +21,7 @@ import java.util.List;
 public class TeamService {
 
     private final TeamRepository teamRepository;
+    private final UserRepository userRepository;
 
     public Team create(User leader, TeamCreateOrUpdateRequest request) {
         Team team = createTeam(leader, request);
@@ -26,10 +29,15 @@ public class TeamService {
         List<TeamPosition> teamPositions = request.getTeamPositions(team);
         team.addTeamPositions(teamPositions);
 
-//        teamPositionRepository.saveAll(teamPositions);
         teamRepository.save(team);
 
         return team;
+    }
+
+    public List<TeamSearchResponse> searchTeams(Optional<User> user) {
+        List<Team> teams = teamRepository.findAll();
+        List<User> users = userRepository.findAll();
+        return getSearchTeamsResponse(teams);
     }
 
     @Transactional(readOnly = true)
@@ -57,6 +65,24 @@ public class TeamService {
                 .type(TeamType.valueOf(request.getType()))
                 .leader(leader)
                 .build();
+    }
+
+    private List<TeamSearchResponse> getSearchTeamsResponse(List<Team> teamList) {
+        List<TeamSearchResponse> teamSearchResponses = new ArrayList<>();
+        Map<Long, User> userMap = getUserMap();
+        teamList.forEach(team ->
+                    teamSearchResponses.add(TeamSearchResponse.from(team, userMap)));
+
+        return teamSearchResponses;
+    }
+
+    private Map<Long, User> getUserMap() {
+        Map<Long, User> userMap = new HashMap<>();
+        userRepository.findAll()
+                .forEach(user ->
+                        userMap.put(user.getId(), user));
+
+        return userMap;
     }
 
     private TeamDetailResponse getResponse(Team team) {

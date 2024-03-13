@@ -33,7 +33,7 @@ public class TeamPositionDto {
         List<TeamStack> teamStacks = stacks.stream()
                 .map(stack ->
                         TeamStack.builder()
-                                .stack(stack)
+                                .name(stack)
                                 .build()
                 ).toList();
 

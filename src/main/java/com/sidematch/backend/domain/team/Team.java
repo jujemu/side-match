@@ -62,4 +62,11 @@ public class Team {
         this.isDeleted = false;
         this.isFinished = false;
     }
+
+    public List<TeamStack> getTeamStacks() {
+        return teamPositions.stream()
+                .flatMap(teamPosition ->
+                        teamPosition.getStacks().stream())
+                .distinct().toList();
+    }
 }
