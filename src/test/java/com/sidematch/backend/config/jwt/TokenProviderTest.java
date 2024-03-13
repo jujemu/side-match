@@ -10,16 +10,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.sidematch.backend.config.jwt.JwtProvider.ACCESS_TOKEN_DURATION;
+import static com.sidematch.backend.config.jwt.TokenProvider.ACCESS_TOKEN_DURATION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 @Transactional
 @SpringBootTest
-class JwtProviderTest {
+class TokenProviderTest {
 
     @Autowired
-    JwtProvider jwtProvider;
+    TokenProvider tokenProvider;
     @Autowired
     JwtService jwtService;
     @Autowired
@@ -34,10 +34,10 @@ class JwtProviderTest {
         User user = userService.signUp(email, name);
 
         //when
-        String token = jwtProvider.generateToken(user.getId(), user.getRole().toString(), ACCESS_TOKEN_DURATION);
+        String token = tokenProvider.generateToken(user.getId(), user.getRole().toString(), ACCESS_TOKEN_DURATION);
 
         //then
-        Claims claims = jwtProvider.loadPayloadAndValidateToken(token);
+        Claims claims = tokenProvider.loadPayloadAndValidateToken(token);
         Long userIdFromToken = Long.parseLong(claims.getSubject());
 
         assertThat(userIdFromToken).isEqualTo(user.getId());
@@ -51,11 +51,11 @@ class JwtProviderTest {
         String email = "test@test.com";
         String name = "test";
         User user = userService.signUp(email, name);
-        String token = jwtProvider.generateToken(user.getId(), user.getRole().toString(), ACCESS_TOKEN_DURATION);
+        String token = tokenProvider.generateToken(user.getId(), user.getRole().toString(), ACCESS_TOKEN_DURATION);
 
         //when //then
         assertThatCode(() ->
-                jwtProvider.loadPayloadAndValidateToken(token)).doesNotThrowAnyException();
+                tokenProvider.loadPayloadAndValidateToken(token)).doesNotThrowAnyException();
     }
 
 }

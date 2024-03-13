@@ -1,6 +1,6 @@
 package com.sidematch.backend.config.oauth;
 
-import com.sidematch.backend.config.jwt.JwtProvider;
+import com.sidematch.backend.config.jwt.TokenProvider;
 import com.sidematch.backend.config.oauth.userservice.CustomOAuth2User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,7 +30,7 @@ class OAuth2SuccessHandlerTest {
     OAuth2SuccessHandler oAuth2SuccessHandler;
     
     @MockBean
-    JwtProvider jwtProvider;
+    TokenProvider tokenProvider;
 
     @Mock
     HttpServletRequest request;
@@ -48,7 +48,7 @@ class OAuth2SuccessHandlerTest {
                 .willReturn(oauth2User);
 
         String token = "test_token";
-        given(jwtProvider.generateToken(anyLong(), anyString(), any(Duration.class)))
+        given(tokenProvider.generateToken(anyLong(), anyString(), any(Duration.class)))
                 .willReturn(token);
         //when
         oAuth2SuccessHandler.onAuthenticationSuccess(request, response, authentication);
@@ -75,7 +75,7 @@ class OAuth2SuccessHandlerTest {
 
         // then
         Duration acceessTokenDuration = Duration.ofHours(2);
-        verify(jwtProvider, only()).generateToken(anyLong(), anyString(), eq(acceessTokenDuration));
+        verify(tokenProvider, only()).generateToken(anyLong(), anyString(), eq(acceessTokenDuration));
     }
 
     private OAuth2User getOauth2User() {
