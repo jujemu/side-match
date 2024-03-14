@@ -33,14 +33,6 @@
   Google slide
 </a>
 
-## 아키텍쳐
-
-사진
-
-## ERD
-
-사진
-
 ## Login Flow
 
 ### UserInfo endpoint
@@ -60,8 +52,6 @@
 - UsernamePasswordToken은 JWT와 관련 있는 것이 아니라 스프링 시큐리티에서 제공하는 Principal 구현체라는 점을 주의
 
 ## CI/CD 구축 과정
-
-사진
 
 - https://jujemu.tistory.com/34
 - https://jujemu.tistory.com/35
