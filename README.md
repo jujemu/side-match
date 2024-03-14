@@ -57,6 +57,8 @@ https://jujemu.tistory.com/106
 
 ### 동적 쿼리를 if문으로 작성하여 지저분했던 코드를 QueryDSL 개선
 
+https://jujemu.tistory.com/116
+
 ### mysql에 저장할 때, 아이콘, 이모지가 저장 안 되는 문제 해결
 
 https://jujemu.tistory.com/63
