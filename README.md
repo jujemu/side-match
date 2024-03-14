@@ -18,9 +18,8 @@
 
 ## API 문서
 
-<a href="https://www.notion.so/Rest-API-3132ab1f13a54100887add988d294108?pvs=4">
-  Notion link  
-</a>
+https://www.notion.so/Rest-API-3132ab1f13a54100887add988d294108?pvs=4">
+
 <div>
   <br>
   <img src="https://github.com/jujemu/side-match/assets/103489171/26b7aba9-59aa-43d2-b247-07a6e546aa80" width="90%">
