@@ -18,7 +18,9 @@
 
 ## API 문서
 
-https://www.notion.so/Rest-API-3132ab1f13a54100887add988d294108?pvs=4">
+<a href="https://jujemu.notion.site/Rest-API-3132ab1f13a54100887add988d294108?pvs=4" target="_blank">
+노션 링크
+</a>
 
 <div>
   <br>
