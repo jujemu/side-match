@@ -163,7 +163,7 @@ class TeamServiceTest {
         List<TeamStack> teamStacks = stacks.stream()
                 .map(stack ->
                         TeamStack.builder()
-                                .stack(stack)
+                                .name(stack)
                                 .build()).toList();
         TeamPosition teamPosition = TeamPosition.builder()
                 .maxCount(maxCount)

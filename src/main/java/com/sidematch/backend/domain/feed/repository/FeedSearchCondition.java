@@ -2,6 +2,7 @@ package com.sidematch.backend.domain.feed.repository;
 
 import com.sidematch.backend.domain.feed.ProjectDomain;
 import com.sidematch.backend.domain.feed.controller.FeedSearchType;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -11,6 +12,7 @@ public class FeedSearchCondition {
     private FeedSearchType type;
     private String keyword;
 
+    @Builder
     public FeedSearchCondition(ProjectDomain domain, FeedSearchType type, String keyword) {
         this.domain = domain;
         this.type = type;
