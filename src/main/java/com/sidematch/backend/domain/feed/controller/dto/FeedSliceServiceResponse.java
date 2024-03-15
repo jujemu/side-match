@@ -1,8 +1,6 @@
 package com.sidematch.backend.domain.feed.controller.dto;
 
-import com.sidematch.backend.domain.feed.Feed;
-import com.sidematch.backend.domain.feed.controller.dto.FeedSearchResponse;
-import com.sidematch.backend.domain.user.User;
+import com.sidematch.backend.domain.feed.repository.FeedRepositoryResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Slice;
@@ -11,27 +9,27 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class FeedSliceResponse {
+public class FeedSliceServiceResponse {
 
     private List<FeedSearchResponse> feedSearchResponses;
     private int size;
     private Boolean hasNextSlice;
 
-    private FeedSliceResponse(List<FeedSearchResponse> feedSearchResponses, int size, Boolean hasNextSlice) {
+    private FeedSliceServiceResponse(List<FeedSearchResponse> feedSearchResponses, int size, Boolean hasNextSlice) {
         this.feedSearchResponses = feedSearchResponses;
         this.size = size;
         this.hasNextSlice = hasNextSlice;
     }
 
-    public static FeedSliceResponse of(Slice<Feed> feeds) {
-        List<FeedSearchResponse> responses = feeds.stream()
+    public static FeedSliceServiceResponse of(Slice<FeedRepositoryResponse> repositoryResponses) {
+        List<FeedSearchResponse> responses = repositoryResponses.stream()
                 .map(FeedSearchResponse::of)
                 .toList();
 
-        return new FeedSliceResponse(
+        return new FeedSliceServiceResponse(
                 responses,
-                feeds.getSize(),
-                feeds.hasNext()
+                repositoryResponses.getSize(),
+                repositoryResponses.hasNext()
         );
     }
 

@@ -1,6 +1,7 @@
 package com.sidematch.backend.domain.feed.controller.dto;
 
 import com.sidematch.backend.domain.feed.Feed;
+import com.sidematch.backend.domain.feed.repository.FeedRepositoryResponse;
 import com.sidematch.backend.domain.user.User;
 import lombok.Builder;
 import lombok.Data;
@@ -15,24 +16,22 @@ public class FeedSearchResponse {
     private String title;
     private String content;
     private String userName;
-    private boolean isLiked;
 
     @Builder
-    private FeedSearchResponse(Long id, Long userId, String title, String content, String userName, boolean isLiked) {
+    private FeedSearchResponse(Long id, Long userId, String title, String content, String userName) {
         this.id = id;
         this.userId = userId;
         this.title = title;
         this.content = content;
         this.userName = userName;
-        this.isLiked = isLiked;
     }
 
-    public static FeedSearchResponse of(Feed feed) {
+    public static FeedSearchResponse of(FeedRepositoryResponse repositoryResponses) {
         return FeedSearchResponse.builder()
-                .id(feed.getId())
-                .userId(feed.getUser().getId())
-                .title(feed.getTitle())
-                .content(feed.getContent())
+                .id(repositoryResponses.getId())
+                .userId(repositoryResponses.getId())
+                .title(repositoryResponses.getTitle())
+                .content(repositoryResponses.getContent())
                 .build();
     }
 }

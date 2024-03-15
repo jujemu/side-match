@@ -1,5 +1,6 @@
 package com.sidematch.backend.domain.feed.repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sidematch.backend.domain.feed.Feed;
@@ -23,13 +24,21 @@ public class FeedRepositoryCustomImpl implements FeedRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Slice<Feed> searchSlice(FeedSearchCondition condition, Pageable pageable) {
+    public Slice<FeedRepositoryResponse> searchSlice(FeedSearchCondition condition, Pageable pageable) {
         ProjectDomain domain = condition.getDomain();
         FeedSearchType type = condition.getType();
         String likeKeyword = "%" + condition.getKeyword() + "%";
 
-        List<Feed> content = queryFactory
-                .selectFrom(feed)
+        List<FeedRepositoryResponse> content = queryFactory
+                .select(
+                        Projections.constructor(FeedRepositoryResponse.class,
+                            feed.id,
+                            feed.title,
+                            feed.content,
+                            user.id,
+                            user.name)
+                )
+                .from(feed)
                 .join(feed.user, user)
                 .where(
                         domainEq(domain),
