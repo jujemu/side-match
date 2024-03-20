@@ -17,7 +17,7 @@
 ## API 문서
 
 <a href="https://jujemu.notion.site/fc6d942f2ca54f038b54037873d8a51f?v=352de805f0d148b4b55bba8b30deb7b6&pvs=4" target="_blank">
-노션 링크
+REST API, 노션 링크
 </a>
 
 <div>
