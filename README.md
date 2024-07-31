@@ -49,6 +49,13 @@ REST API, 노션 링크
 - 검증된 후에는 UsernamePasswordToken을 생성하고 SecurityContextHolder에 저장
 - UsernamePasswordToken은 JWT와 관련 있는 것이 아니라 스프링 시큐리티에서 제공하는 Principal 구현체라는 점을 주의
 
+### Redis lock을 활용한 refresh token 탈취 대응 시나리오
+
+![](images/token.jpg)
+
+- 정상 유저의 클라이언트에서 짧은 시간에 요청이 여러번 보내질 경우, 이미 사용된 토큰으로 요청한 것으로 오인하여 재로그인할 수 있다.
+- redis lock(SETNX, EXPIRE)을 사용해서 일정 시간 동안 refresh token 재생성을 억제하여 오인하지 않도록 한다.
+
 ## CI/CD 구축 과정
 
 - https://jujemu.tistory.com/34
